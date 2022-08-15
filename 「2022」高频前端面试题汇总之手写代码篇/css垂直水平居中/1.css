@@ -1,0 +1,16 @@
+.container{
+    position: relative;
+    width: 500px;
+    height:500px;
+    border:1px solid #465468;
+}
+.box{
+    position: absolute;
+    height: 250px;
+    width: 250px;
+    top:50%;
+    margin-top: -125px;
+    left:50%;
+    margin-left: -125px;
+    background-color: lightblue;
+}

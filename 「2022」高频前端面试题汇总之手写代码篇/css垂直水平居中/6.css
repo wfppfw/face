@@ -1,0 +1,8 @@
+.father{
+    display: flex;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #465468;
+    justify-content: center;
+    align-items: center;
+}

@@ -78,6 +78,19 @@ function objectFactory() {
 }
 // 使用方法
 objectFactory(构造函数, 初始化参数);
+
+//简约版
+function objNew(Fn, ...arg) {
+  //(1)(2)
+  let result = Object.create(Fn.prototype); //let result = {};res.__proto__ = Fn.prototypr
+  // (3)
+  let res = Fn.call(result, ...arg);
+  if ((typeof res === 'object' && res !== null) || typeof res === 'function') {
+    return res;
+  }
+  return result;
+}
+
 ```
 
 ### 4. 手写 Promise
@@ -342,6 +355,20 @@ function debounce(fn, wait) {
     }, wait);
   };
 }
+
+//无arguments版本
+function debound(fn, delay) {
+  let timer = null;
+  return function (...args) {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(() => {
+      fn.apply(this, args);
+    }, delay);
+  };
+}
+
 ```
 
 ### 9. 手写节流函数
@@ -680,35 +707,6 @@ function shallowCopy(object) {
   return newObject;
 }// 浅拷贝的实现;
 
-function shallowCopy(object) {
-  // 只拷贝对象
-  if (!object || typeof object !== "object") return;
-
-  // 根据 object 的类型判断是新建一个数组还是对象
-  let newObject = Array.isArray(object) ? [] : {};
-
-  // 遍历 object，并且判断是 object 的属性才拷贝
-  for (let key in object) {
-    if (object.hasOwnProperty(key)) {
-      newObject[key] = object[key];
-    }
-  }
-
-  return newObject;
-}// 浅拷贝的实现;
-function shallowCopy(object) {
-  // 只拷贝对象
-  if (!object || typeof object !== "object") return;
-  // 根据 object 的类型判断是新建一个数组还是对象
-  let newObject = Array.isArray(object) ? [] : {};
-  // 遍历 object，并且判断是 object 的属性才拷贝
-  for (let key in object) {
-    if (object.hasOwnProperty(key)) {
-      newObject[key] = object[key];
-    }
-  }
-  return newObject;
-}
 ```
 
 ### 18. 实现深拷贝
@@ -804,6 +802,22 @@ a = a + b
 b = a - b
 a = a - b
 ```
+
+
+
+自然数组【1,2,3,4,5】
+
+1. 
+   let i = 0;
+2. new Array(n).fill(i++);
+3.  
+4. *// 方法二*
+5. Array.from({ length: n }, (v, i) => i);
+6.  
+7. *// 方法三*
+8. 
+
+
 
 ### 3. 实现数组的乱序输出
 

@@ -1,0 +1,13 @@
+.father {
+    position: relative;
+    width: 500px;
+    height: 500px;
+    border: 1px solid #465468;
+}
+.son{
+    position: absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%,-50%);
+    background-color: lightblue;
+}

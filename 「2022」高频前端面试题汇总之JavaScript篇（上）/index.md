@@ -1,5 +1,5 @@
 
- cccxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxv             ![JavaScript面试题.png](1.png)
+​             ![JavaScript面试题.png](1.png)
 
 ## 一、数据类型
 
@@ -58,8 +58,25 @@ console.log(typeof null);            // object
 
 其中数组、对象、null都会被判断为object，其他判断都正确。
 
-
 **（2）instanceof**
+
+instanceOf 原理
+
+```js
+function new_instance_of(leftVaule, rightVaule) { 
+    let rightProto = rightVaule.prototype; // 取右表达式的 prototype 值
+    leftVaule = leftVaule.__proto__; // 取左表达式的__proto__值
+    while (true) {
+        if (leftVaule === null) {
+            return false;    
+        }
+        if (leftVaule === rightProto) {
+            return true;    
+        } 
+        leftVaule = leftVaule.__proto__ 
+    }
+}
+```
 
 `instanceof`可以正确判断对象的类型，**其内部运行机制是判断在其原型链中能否找到该类型的原型**。
 
@@ -75,8 +92,20 @@ console.log({} instanceof Object);                   // true
 
 可以看到，`instanceof`**只能正确判断引用数据类型**，而不能判断基本数据类型。`instanceof` 运算符可以用来测试一个对象在其原型链中是否存在一个构造函数的 `prototype` 属性。
 
-
 **（3） constructor**
+
+**实例w的隐式原型指向它构造函数的显式原型，指向的意思是恒等于**
+
+```
+w.__proto__ === Word.prototype
+```
+
+**总结**
+
+1、prototype只有构造函数才有，指向构造函数的原型。
+2、__proto__任何对象都有，指向产生当前对象的构造函数的原型。
+3、constructor只有原型对象才有，默认指回prototype属性所在的构造函数，使用原型链继承之后，要给新的原型对象添加constructor属性并指向构造函数。
+4、任何对象都有产生自己的构造函数，包括构造函数自己
 
 ```javascript
 console.log((2).constructor === Number); // true
@@ -215,6 +244,13 @@ function myInstanceof(left, right) {
 }
 ```
 
+
+
+for..of..: 它是es6新增的一个遍历方法，但**只限于迭代器(iterator)**, 所以普通的对象用for..of遍历
+是会报错的。
+
+可迭代的对象：包括Array, Map, Set, String, TypedArray, arguments对象等等
+
 ### 7. 为什么0.1+0.2 ! == 0.3，如何让其相等  
 
 在开发过程中遇到类似这样的问题：
@@ -302,6 +338,78 @@ function numberepsilon(arg1,arg2){
 
 console.log(numberepsilon(0.1 + 0.2, 0.3)); // true
 ```
+
+1. 
+
+2. #### 2.27 json和xml数据的区别
+
+3. 
+
+4. 数据体积方面：xml是重量级的，json是轻量级的，传递的速度更快些。
+
+5. 数据传输方面：xml在传输过程中比较占带宽，json占带宽少，易于压缩。
+
+6. 数据交互方面：json与javascript的交互更加方便，更容易解析处理，更好的进行数据交互
+
+7. 数据描述方面：json对数据的描述性比xml较差
+
+8. xml和json都用在项目交互下，xml多用于做配置文件，json用于数据交互。
+
+
+
+
+
+- Math.min 的参数是 0 个或者多个，如果多个参数很容易理解，返回参数中最小的。如果没有参数，则返回 Infinity，无穷大。
+- 而 Math.max 没有传递参数时返回的是-Infinity.所以输出 false
+
+
+
+我们可以简单理解Event Loop如下：
+
+1. 所有任务都在主线程上执行，形成一个执行栈(Execution Context Stack)
+2. 在主线程之外还存在一个任务队列(Task Queen),系统把异步任务放到任务队列中，然后主线程继续执行后续的任务
+3. 一旦执行栈中所有的任务执行完毕，系统就会读取任务队列。如果这时异步任务已结束等待状态，就会从任务队列进入执行栈，恢复执行
+4. 主线程不断重复上面的第三步
+
+在上述的例子中，我们明白首先执行主线程中的同步任务，因此依次输出3、4、6、8。当主线程任务执行完毕后，再从Event Loop中读取任务。
+
+Event Loop读取任务的先后顺序，取决于任务队列（Job queue）中对于不同任务读取规则的限定。
+
+在Job queue中的队列分为两种类型：
+
+宏任务 Macrotask宏任务是指Event Loop在**每个阶段**执行的任务
+
+微任务 Microtask微任务是指Event Loop在**每个阶段之间**执行的任务
+
+我们举例来看执行顺序的规定，我们假
+
+f宏任务队列包含任务: A1, A2 , A3
+
+微任务队列包含任务: B1, B2 , B3
+
+执行顺序为，首先执行宏任务队列开头的任务，也就是 A1 任务，执行完毕后，在执行微任务队列里的所有任务，也就是依次执行B1, B2 , B3
+
+
+
+#### 2.9 iframe有什么优点、缺点
+
+**参考答案：**
+
+优点：
+
+1. iframe能够原封不动的把嵌入的网页展现出来。
+2. 如果有多个网页引用iframe，那么你只需要修改iframe的内容，就可以实现调用的每一个页面内容的更改，方便快捷。
+3. 网页如果为了统一风格，头部和版本都是一样的，就可以写成一个页面，用iframe来嵌套，可以增加代码的可重用。
+4. 如果遇到加载缓慢的第三方内容如图标和广告，这些问题可以由iframe来解决。
+
+缺点：
+
+1. iframe会阻塞主页面的onload事件；
+2. iframe和主页面共享连接池，而浏览器对相同域的连接有限制，所以会影响页面的并行加载。会产生很多页面，不容易管理。
+3. iframe框架结构有时会让人感到迷惑，如果框架个数多的话，可能会出现上下、左右滚动条，会分散访问者的注意力，用户体验度差。
+4. 代码复杂，无法被一些搜索引擎索引到，这一点很关键，现在的搜索引擎爬虫还不能很好的处理iframe中的内容，所以使用iframe会不利于搜索引擎优化（SEO）。
+5. 很多的移动设备无法完全显示框架，设备兼容性差。
+6. iframe框架页面会增加服务器的http请求，对于大型网站是不可取的
 
 ### 8. 如何获取安全的 undefined 值？
 
@@ -423,7 +531,7 @@ a.toUpperCase(); // "ABC"
 在访问`'abc'.length`时，JavaScript 将`'abc'`在后台转换成`String('abc')`，然后再访问其`length`属性。
 
 
- 
+
 
 ```javascript
 var a = 'abc'
@@ -655,8 +763,19 @@ console.log(outObj) // {inObj: {a: 2, b: 2}}
 
 const保证的并不是变量的值不能改动，而是变量指向的那个内存地址不能改动。对于基本类型的数据（数值、字符串、布尔值），其值就保存在变量指向的那个内存地址，因此等同于常量。
 
-
 但对于引用类型的数据（主要是对象和数组）来说，变量指向数据的内存地址，保存的只是一个指针，const只能保证这个指针是固定不变的，至于它指向的数据结构是不是可变的，就完全不能控制了。
+
+
+
+
+
+1. call 和 apply 会调用函数，并且改变函数内部this指向。
+2. call 和 apply 传递的参数不一样，call 传递参数arg1,arg2...形式 apply 必须数组形式[arg]
+3. bind 不会调用函数，可以改变函数内部this指向。
+
+1. call 经常做继承。
+2. apply 经常跟数组有关系，比如借助于数学对象实现数组最大值最小值。
+3. bind 不调用函数，但是还想改变this指向，比如改变定时器内部的this指向
 
 ### 3. 如果new一个箭头函数的会怎么样
 

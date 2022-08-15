@@ -1,0 +1,22 @@
+.container{
+    border: 1px solid red;
+    display: flex;
+}
+
+.left{
+    width: 200px;
+    height:200px;
+    background-color: aqua;
+}
+.right{
+    width: 200px;
+    height:200px;
+    background-color: aquamarine;
+}
+.mid{
+    background-color: blue;
+    height: 200px;
+    flex:1;
+    margin-left: 20px;
+    margin-right:20px ;
+}
