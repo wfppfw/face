@@ -261,17 +261,7 @@ slot又名插槽，是Vue的内容分发机制，组件内部的模板引擎使�
 动态绑定了 input 的 value 指向了 messgae 变量，并且在触发 input 事件的时候去动态把 message设置为目标值：
 
 ```javascript
-<input v-model="sth" />
-//  等同于
-<input 
-    v-bind:value="message" 
-    v-on:input="message=$event.target.value"
->
-//$event 指代当前触发的事件对象;
-//$event.target 指代当前触发的事件对象的dom;
-//$event.target.value 就是当前dom的value值;
-//在@input方法中，value => sth;
-//在:value中,sth => value;
+    	
 ```
 
 **（2）作用在组件上**

@@ -716,7 +716,7 @@ React-intl是雅虎的语言国际化开源项目FormatJS的一部分，通过�
 React-intl提供了两种使用方法，一种是引用React组件，另一种是直接调取API，官方更加推荐在React项目中使用前者，只有在无法使用React组件的地方，才应该调用框架提供的API。它提供了一系列的React组件，包括数字格式化、字符串格式化、日期格式化等。
 
 
-在React-intl中，可以配置不同的语言包，他的工作原理就是根据需要，在语言包之间进行切换。
+在React-intl中，可以配置不=同的语言包，他的工作原理就是根据需要，在语言包之间进行切换。
 
 ### 21. 对 React context 的理解
 
@@ -1008,7 +1008,6 @@ function enqueueUpdate(component) {
 
 如果在短时间内频繁setState。React会将state的改变压入栈中，在合适的时机，批量更新state和视图，达到提高性能的效果。
 
-
 **（2）setState 是同步还是异步的**
 
 假如所有setState是同步的，意味着每执行一次setState时（有可能一个同步代码中，多次setState），都重新vnode diff + dom修改，这对性能来说是极为不好的。如果是异步，则可以把一个同步代码中的多个setState合并成一次组件更新。所以默认是异步的，但是在一些情况下是同步的。
@@ -1074,7 +1073,7 @@ this.setState({
 }, callback) // 第二个参数是 state 更新完成后的回调函数
 ```
 
-### 1·														  6. React中的setState和replaceState的区别是什么？
+###  6. React中的setState和replaceState的区别是什么？
 
 **（1）setState()**
 setState()用于设置状态对象，其语法如下：
