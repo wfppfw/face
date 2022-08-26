@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta manifest="./index.manifest">
+    <meta name="descripttion" content="页面描述内容">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>html元素</title>
+    <style>
+        .dragBox {
+            width: 100px;
+            height: 100px;
+            background-color: lightgreen;
+        }
+
+        .location {
+            width: 200px;
+            height: 200px;
+            background-color: lightpink;
+        }
+    </style>
+</head>
+
+<body>
+    <header>头部</header>
+    <nav>导航栏</nav>
+    <section>区块</section>
+    <article>
+        主要内容
+        1. defer和async执行顺序
+        2. 常用meta标签：
+        <div>
+            <p>音频标签audio
+                lrc歌词：
+            </p>
+            <div>
+                <audio src=""></audio>
+            </div>
+            <p>video标签</p>
+        </div>
+
+        <div>
+            <p>表单元素
+
+            </p>
+            <div>
+                Email:<input type="email" name="" useremail>
+                Linkpage:<input type="url" name="link_url" />
+                Number:<input type="number" name="user_num" min="1" max="10" />
+                Range:<input type="range" name="user_range" min="1" max="10" />
+                Date:<input type="date" name="user_date" />
+                Search Google:<input type="search" name="googlesearch">
+                Select your favorite color:<input type="color" name="favcolor">
+                Telephone:<input type="tel" name="usrtel">
+                Week:<input type="week" name="usrWeek">
+                month:<input type="week" name="usrMonth">
+            </div>
+            <p>进度条</p>
+            <progress value="50" max="100" min="0"></progress>
+            <span>local-session:</span>
+            <div id="local"></div>
+            <div id="session"></div>
+            <button type="button" onclick="addClick()">
+                添加cookie
+            </button>
+            <button type="button" onclick="readCookie()">
+                读取cookie
+            </button>
+            <button type="button" onclick="deleteCookie()">
+                删除cookie
+            </button>
+
+            <p>拖放api</p>
+            <div id="box" class="dragBox" draggable="true"></div>
+            <div class="location"></div>
+        </div>
+
+        <div>
+            <p>worker</p>
+            <span id="app"></span>
+            <input type="text" id="msg">
+            <button onclick="sendMessage()">发送</button>
+            <button onclick="stopWorker()">stop!</button>
+            <p>./index.manifest使用成功,资源请求状态码变为304</p>
+            <div id="requestAnimationFreame" style="width: 0px;height:12px;line-height: 12px;background: pink;">
+                0%
+            </div>
+        </div>
+    </article>
+    <aside>侧边栏</aside>
+    <footer>底部</footer>
+    <script>
+        function init() {
+            window.localStorage.setItem('test', 'test1');
+            window.localStorage['arr'] = 'arr';
+            window.localStorage.obj = {
+                a: 1
+            }
+            console.log(window.localStorage.length, window.localStorage.key(0));
+            // window.localStorage.clear()
+            document.getElementById("local").innerText = window.localStorage.getItem('test')
+            window.localStorage.removeItem("arr");
+        }
+        init();
+
+        function addClick() {
+            console.log('add')
+            document.cookie = "name=admin";
+            document.cookie = "age=10";
+            let date = new Date();
+            date.setTime(date.getTime() + 24 * 60 * 60 * 1000);
+            document.cookie = "user=root;expires=" + date.toGMTString();
+        }
+
+        function readCookie() {
+            let cookies = document.cookie;
+            let value = getCookies("name", cookies);
+            if (value != null) {
+                console.log(value);
+            } else {
+                console.log("不存在")
+            }
+        }
+
+        function getCookies(key, cookies) {
+            let cookiesArr = cookies.split(";");
+            for (let cookie of cookiesArr) {
+                let cArr = cookie.trim().split("=");
+                let keyname = cArr[0];
+                if (keyname == key) {
+                    return cArr[1];
+                }
+            }
+            return null;
+        }
+
+        function deleteCookie() {
+            let cookies = document.cookie;
+            let cookiesArr = cookies.split(";");
+            for (let cookie of cookiesArr) {
+                let cArr = cookie.trim().split("=");
+                console.log(cArr);
+                if (cArr[0] === 'name') {
+                    let exTime = new Date().toGMTString();
+                    document.cookie = cookie + ';expires=' + exTime;
+                    break;
+                }
+            }
+        }
+    </script>
+    <script>
+        // ondragstart -> ondrag -> ondragenter -> ondragover -> ondragleave -> ondragend -> ondrop
+        let box = document.querySelector('.dragBox');
+        let located = document.querySelector(".location");
+        box.addEventListener('dragstart', function (e) {
+            console.log(e.dataTransfer);
+            e.dataTransfer.setData("text", e.target.id);
+            e.dataTransfer.dropEffect = "move";
+            e.dataTransfer.effectAllowed = "move";
+            console.log
+            console.log('拖拽开始');
+        })
+        box.addEventListener('drag', function () {
+            console.log('元素被拖动');
+        })
+        box.addEventListener('dragend', function () {
+            console.log('拖拽结束');
+        })
+        located.addEventListener('dragenter', (e) => {
+            console.log('进入目标元素');
+            e.preventDefault()
+        })
+        located.addEventListener('dragover', (e) => {
+            console.log('在目标元素内');
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+
+
+        })
+        located.addEventListener('dragleave', () => {
+            console.log('离开了目标元素');
+        })
+        located.addEventListener('drop', (e) => {
+            e.dataTransfer.dropEffect = "move";
+            console.log('元素被放置', e.dataTransfer.getData("text"));
+            e.preventDefault();
+            var data = e.dataTransfer.getData("text");
+            e.target.appendChild(document.getElementById(data));
+            for (var i = 0; i < e.dataTransfer.files.length; i++) {
+                var file = e.dataTransfer.files[i];
+                console.log(file)
+                //如果想知道file属性里边有什么有用的字段，可以console.log(e.dataTransfer.files[i])
+                var html = "<tr><td>" + file.name + "</td><td>" + file.size + "</td><td>" + file.type +
+                    "</td></tr>";
+                // msg.innerHTML += html;
+            }
+        })
+    </script>
+    <script>
+        if (typeof (Worker) === 'undefined') {
+            console.log('No worker support...');
+
+        } else {
+            window.w = new Worker('worker.js', {
+                name: 'myWorker'
+            });
+
+            window.w.onmessage = (e) => {
+                document.getElementById('app').innerHTML = e.data;
+
+            }
+            window.w.onerror = (err) => {
+                w.terminate();
+                console.log(error.filename, error.lineno, error.message) // 发生错误的文件名、行号、错误内容
+            }
+
+        }
+
+        function sendMessage() {
+            const msg = document.getElementById('msg')
+            window.w.postMessage(msg.value)
+        }
+
+        function stopWorker() {
+            window.w.terminate();
+        }
+        //设置requestAnimationFrame;
+        let div = document.querySelector('#requestAnimationFreame');
+        div.onclick = function () {
+            let timer = requestAnimationFrame(function fn() {
+                if (parseInt(div.style.width) < 300) {
+                    div.style.width = parseInt(div.style.width) + 3 + 'px';
+                    div.innerHTML = parseInt(div.style.width) / 3 + '%'
+                    timer = requestAnimationFrame(fn);
+                } else {
+                    cancelAnimationFrame(timer);
+                }
+            })
+        }
+    </script>
+</body>
+
+</html>

@@ -1,6 +1,18 @@
 
 ​             ![JavaScript面试题.png](1.png)
 
+记录：
+
+{}的valueOf()方法的值为{}
+
+{}的toString()方法的值为[object object] 
+
+[]的valueOf()方法的值为[]
+
+[]的toString()方法的值为""(空串)
+
+
+
 ## 一、数据类型
 
 ### 1. JavaScript有哪些数据类型，它们的区别？
@@ -339,11 +351,7 @@ function numberepsilon(arg1,arg2){
 console.log(numberepsilon(0.1 + 0.2, 0.3)); // true
 ```
 
-1. 
-
-2. #### 2.27 json和xml数据的区别
-
-3. 
+####  json和xml数据的区别
 
 4. 数据体积方面：xml是重量级的，json是轻量级的，传递的速度更快些。
 
@@ -381,13 +389,7 @@ Event Loop读取任务的先后顺序，取决于任务队列（Job queue）中�
 
 微任务 Microtask微任务是指Event Loop在**每个阶段之间**执行的任务
 
-我们举例来看执行顺序的规定，我们假
 
-f宏任务队列包含任务: A1, A2 , A3
-
-微任务队列包含任务: B1, B2 , B3
-
-执行顺序为，首先执行宏任务队列开头的任务，也就是 A1 任务，执行完毕后，在执行微任务队列里的所有任务，也就是依次执行B1, B2 , B3
 
 
 
@@ -415,6 +417,8 @@ f宏任务队列包含任务: A1, A2 , A3
 
 因为 undefined 是一个标识符，所以可以被当作变量来使用和赋值，但是这样会影响 undefined 的正常判断。表达式 void ___ 没有返回值，因此返回结果是 undefined。void 并不改变表达式的结果，只是让表达式不返回值。因此可以用 void 0 来获得 undefined。
 
+![image-20220822212537022](/Users/wfppfw/Library/Application Support/typora-user-images/image-20220822212537022.png)
+
 ### 9. typeof NaN 的结果是什么？
 
 NaN 指“不是一个数字”（not a number），NaN 是一个“警戒值”（sentinel value，有特殊用途的常规值），用于指出数字类型中的错误情况，即“执行数学运算没有成功，这是失败后返回的结果”。
@@ -423,7 +427,7 @@ NaN 指“不是一个数字”（not a number），NaN 是一个“警戒值”
 typeof NaN; // "number"
 ```
 
-NaN 是一个特殊值，它和自身不相等，是唯一一个非自反（自反，reflexive，即 x === x 不成立）的值。而 NaN !== NaN 为 true。
+NaN 是一个特殊值，它和自身不相等，是唯一一个非自反（自反，reflexive，即 x === x 不成立）的值。而 NaN !=NaN 为 true。
 
 ### 10. isNaN 和 Number.isNaN 函数的区别？
 
@@ -767,7 +771,7 @@ const保证的并不是变量的值不能改动，而是变量指向的那个内
 
 
 
-
+#####apply,call,bind区别：
 
 1. call 和 apply 会调用函数，并且改变函数内部this指向。
 2. call 和 apply 传递的参数不一样，call 传递参数arg1,arg2...形式 apply 必须数组形式[arg]

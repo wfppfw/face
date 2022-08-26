@@ -145,3 +145,6 @@ function deepCopy(obj, cache = new WeakMap()) {
   }
   return newObj;
 }
+
+
+//手写bind,apply,call;
